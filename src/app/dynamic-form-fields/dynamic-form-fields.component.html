@@ -1,0 +1,34 @@
+<div class="container">
+  <form novalidate (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+    <div *ngFor="let prop of objectProps">
+      <label [attr.for]="prop">{{prop.label}}</label>
+
+      <div [ngSwitch]="prop.type">
+        <input *ngSwitchCase="'text'" 
+          [formControlName]="prop.key"
+          [id]="prop.key" [type]="prop.type">
+        
+        <div *ngSwitchCase="'radio'">
+          <label *ngFor="let option of prop.options">
+            <input
+              type="radio"
+              [name]="prop.key"
+              [formControlName]="prop.key"
+              [value]="option.value"> {{option.label}}
+          </label>
+        </div>
+
+        <div *ngSwitchCase="'select'">
+          <select [formControlName]="prop.key">
+            <option *ngFor="let option of prop.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <p>
+      <button type="submit">Save</button>
+    </p>
+  </form>
+</div>
